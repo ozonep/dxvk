@@ -463,6 +463,11 @@ namespace dxvk {
     { R"(\\LEGOLCUR_DX11\.exe$)", {{
       { "d3d11.disableDirectImageMapping",  "True" },
     }} },
+    /* Wargame: European Escalation: Broken gamma   *
+     * ramp when nvapi is available for some reason */
+    { R"(\\Wargame European Escalation\\WarGame\.exe$)", {{
+      { "dxgi.hideNvidiaGpu",               "True" },
+    }} },
 
     /**********************************************/
     /* D3D9 GAMES                                 */
@@ -1056,6 +1061,17 @@ namespace dxvk {
       { "d3d9.customDeviceId",              "0330" },
       { "d3d9.customDeviceDesc",            "NVIDIA GeForce FX 5900 Ultra" },
     }} },
+    /* Astebreed - Will crash on any graphical    *
+     * options or preset changes otherwise. Also, *
+     * game speed is too fast above 60 fps.       */
+    { R"(\\Astebreed\.exe$)", {{
+      { "d3d9.countLosableResources",      "False" },
+      { "d3d9.maxFrameRate",                  "60" },
+    }} },
+    /* Dungeon Lords - Crash when saving game     */
+    { R"(\\(DLSteamEdition|dlords)\.exe$)", {{
+      { "d3d9.textureMemory",                  "0" },
+    }} },
 
     /**********************************************/
     /* D3D8 GAMES                                 */
@@ -1211,11 +1227,14 @@ namespace dxvk {
       { "d3d8.forceLegacyDiscard",          "True" },
     }} },
     /* Tom Clancy's Splinter Cell                 *
-     * Fixes shadow buffers and alt-tab           */
+     * Fixes shadow buffers, broken physics       *
+     * above 60 FPS and game freezing on alt-tab  */
     { R"(\\splintercell\.exe$)", {{
+      { "d3d9.hideAmdGpu",                  "True" },
+      { "d3d9.maxFrameRate",                  "60" },
+      { "d3d9.deviceLossOnFocusLoss",       "True" },
       { "d3d8.scaleDref",                     "24" },
       { "d3d8.shadowPerspectiveDivide",     "True" },
-      { "d3d9.deviceLossOnFocusLoss",       "True" },
     }} },
     /* Trainz v1.3 (2001)                         *
      * Fixes black screen after alt-tab           */
@@ -1225,8 +1244,14 @@ namespace dxvk {
     /* A.I.M.: Artificial Intelligence Machine    *
      * Fixes black screen after the options       *
      * window is closed or on alt-tab             */
-     { R"(\\AIM\.exe$)", {{
+    { R"(\\AIM\.exe$)", {{
       { "d3d9.deviceLossOnFocusLoss",       "True" },
+    }} },
+    /* Star Trek: Starfleet Command III           *
+     * The GOG release ships with a D3D8 to D3D9  *
+     * wrapper that leaks several surfaces.       */
+    { R"(\\SFC3\.exe$)", {{
+      { "d3d9.countLosableResources",      "False" },
     }} },
   };
 
